@@ -140,7 +140,7 @@ def plot_results(results_dict):
                      label=name, 
                      marker=markers[i % len(markers)], 
                      linestyle=line_styles[i % len(line_styles)],
-                     markevery=max(1, len(errors)//10)) # 避免点太密
+                     markevery=max(1, len(errors)//10))
     
     plt.xlabel('Outer Iteration $k$')
     plt.ylabel('Relative Error $\\frac{||x^* - x^{(k)}||_2}{||x^*||_2}$')
