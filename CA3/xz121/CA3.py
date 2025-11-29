@@ -63,7 +63,7 @@ def find_alpha_with_armijo(Q, A, b, c, x_k, lamb_k, grad_Lc_of_x_k, beta=0.5, si
         alpha *= beta
     return alpha
 
-def inner_loop_with_fixed_lamb_k_and_c_k(Q, A, b, c_k, lamb_k, epsilon, x0=None, beta=0.5, max_iter=10000):
+def inner_loop_with_fixed_lamb_k_and_c_k(Q, A, b, c_k, lamb_k, epsilon, x0=None, beta=0.5, max_iter=1000):
     """
     Minimize L_c_k(x, lambda_k) with gradient descent with Armijo's rule
     """
@@ -98,7 +98,7 @@ def get_next_c(current_c, select_method_idx, beta=1.1, constant_c=10, A=None, b=
         raise ValueError("Invalid select_method_idx")
     
 def outer_loop(Q, A, b, x_star, c_select_method_idx, epsilon=1e-4
-               , beta=1.1, gamma=0.9, constant_c=10, max_outer_iter=10000):
+               , beta=1.1, gamma=0.9, constant_c=10, max_outer_iter=100):
     x = np.zeros(Q.shape[0])
     lamb = np.zeros(A.shape[0])
     c = 1.0
@@ -152,7 +152,7 @@ def plot_results(results_dict):
 
 if __name__ == "__main__":
     np.random.seed(42)
-    m, n = 30, 50
+    m, n = 10, 25
     Q, A, b = get_Q_A_b(m, n)
     epsilon = 1e-4
 
@@ -163,7 +163,7 @@ if __name__ == "__main__":
     print("-" * 50)
 
     strategies = [
-        {"idx": 1, "name": "Constant c=10", "beta": 0, "gamma": 0},
+        {"idx": 1, "name": "Constant c=5", "beta": 0, "gamma": 0},
         {"idx": 2, "name": "Linear c+=2", "beta": 2.0, "gamma": 0},
         {"idx": 3, "name": "Geometric c*=1.5", "beta": 1.5, "gamma": 0},
         {"idx": 4, "name": "Adaptive c*=2.0", "beta": 2.0, "gamma": 0.25} 
@@ -180,7 +180,7 @@ if __name__ == "__main__":
             epsilon=epsilon,
             beta=strat['beta'],
             gamma=strat['gamma'],
-            constant_c=10
+            constant_c=5
         )
         
         results[strat['name']] = errors
