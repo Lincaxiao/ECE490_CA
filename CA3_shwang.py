@@ -67,7 +67,7 @@ def gradient_descent_armijo(x_init, lamb, c, Q, A, b, tol=1e-4, max_iter=1000):
     
     # Armijo parameters
     beta = 0.5   # Step size reduction factor
-    sigma = 0.1  # Acceptance parameter (0 < sigma < 1)
+    sigma = 1e-4  # Acceptance parameter (0 < sigma < 1)
     
     for i in range(max_iter):
         grad = grad_augmented_lagrangian(x, lamb, c, Q, A, b)
@@ -147,6 +147,8 @@ def run_experiments():
     # 1. Setup Problem
     # m, n = 10, 25
     m, n = 30, 50
+    # Setting random seed
+    np.random.seed(42)
     Q, A, b = get_Q_A_b(m, n)
     
     # 2. Get Exact Solution for Error Plotting

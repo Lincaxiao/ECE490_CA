@@ -148,11 +148,13 @@ def plot_results(results_dict):
     plt.grid(True, which="both", ls="-", alpha=0.5)
     plt.legend()
     plt.tight_layout()
-    plt.show()
+    # plt.show()
+    plt.savefig("method_of_multipliers_plot.png")
+    print("\nPlot saved to 'method_of_multipliers_plot.png'")
 
 if __name__ == "__main__":
     np.random.seed(42)
-    m, n = 10, 25
+    m, n = 30, 50
     Q, A, b = get_Q_A_b(m, n)
     epsilon = 1e-4
 
@@ -160,13 +162,16 @@ if __name__ == "__main__":
     x_star = get_soln(Q, A, b)
     print(f"x_star = {x_star}")
     print(f"||Ax* - b|| = {np.linalg.norm(A @ x_star - b):.2e}")
+    # Optimal value
+    optimal_value = get_f(Q, x_star)
+    print(f"Optimal objective value: {optimal_value:.4f}")
     print("-" * 50)
 
     strategies = [
         {"idx": 1, "name": "Constant c=5", "beta": 0, "gamma": 0},
         {"idx": 2, "name": "Linear c+=2", "beta": 2.0, "gamma": 0},
         {"idx": 3, "name": "Geometric c*=1.5", "beta": 1.5, "gamma": 0},
-        {"idx": 4, "name": "Adaptive c*=2.0", "beta": 2.0, "gamma": 0.25} 
+        {"idx": 4, "name": "Adaptive c*=2.0, $\gamma$=0.25", "beta": 2.0, "gamma": 0.25} 
     ]
 
     results = {}
